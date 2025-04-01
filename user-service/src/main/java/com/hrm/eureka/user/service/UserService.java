@@ -73,6 +73,16 @@ public class UserService {
         return UserMapper.mapToUserDto(updatedUser);
     }
 
+    public UserDto addUserToDepartment(Long userId, Long departmentId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
+        user.setDepartmentId(departmentId);
+        user.setUpdatedAt(LocalDateTime.now());
+
+        User updatedUser = userRepository.save(user);
+        return UserMapper.mapToUserDto(updatedUser);
+    }
+
     public void deleteUser(Long id) {
         if (!userRepository.existsById(id)) {
             throw new EntityNotFoundException("User not found with id: " + id);

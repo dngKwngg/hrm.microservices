@@ -27,6 +27,7 @@
         <module>config-server</module>
         <module>gateway-server</module>
         <module>user-service</module>
+        <module>department-service</module>
     </modules>
 
     <build>

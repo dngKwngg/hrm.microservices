@@ -40,6 +40,12 @@ public class UserController {
         return userService.updateUser(userId, request);
     }
 
+    // Add user to a department
+    @PutMapping("/{userId}/department/{departmentId}")
+    public UserDto addUserToDepartment(@PathVariable Long userId, @PathVariable Long departmentId) {
+        return userService.addUserToDepartment(userId, departmentId);
+    }
+
     @DeleteMapping("/{userId}")
     public ResponseEntity<?> deleteUser(@PathVariable Long userId) {
         userService.deleteUser(userId);

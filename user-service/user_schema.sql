@@ -11,3 +11,7 @@ CREATE TABLE IF NOT EXISTS users (
     created_at TIMESTAMP NOT NULL,
     updated_at TIMESTAMP
     );
+
+-- ADD department_id BIGINT,
+ALTER TABLE users
+    ADD department_id BIGINT;

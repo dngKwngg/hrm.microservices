@@ -34,6 +34,9 @@ public class User {
 
     private String role;
 
+    @Column(name = "department_id")
+    private Long departmentId;
+
     private boolean active = true;
 
     @Column(nullable = false)
