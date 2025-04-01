@@ -14,7 +14,7 @@ spring:
         - id: department-service
           uri: lb://DEPARTMENT-SERVICE
           predicates:
-            - Path=/departments/**
+            - Path=/api/v1/departments/**
 
 eureka:
   client:
