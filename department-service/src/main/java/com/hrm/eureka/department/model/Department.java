@@ -15,15 +15,13 @@ import java.time.LocalDateTime;
 public class Department {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="id")
     private Long departmentId;
 
     @Column(name="name", nullable = false, unique = true)
     private String departmentName;
 
     private String description;
-
-    @Column(name="manager_id")
-    private Long managerId;
 
     @Column(nullable = false)
     private LocalDateTime createdAt;

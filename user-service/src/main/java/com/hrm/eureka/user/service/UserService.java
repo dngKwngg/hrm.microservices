@@ -1,5 +1,6 @@
 package com.hrm.eureka.user.service;
 
+import com.hrm.eureka.user.client.DepartmentClient;
 import com.hrm.eureka.user.dto.UserDto;
 import com.hrm.eureka.user.dto.request.CreateUserRequest;
 import com.hrm.eureka.user.dto.request.UpdateUserRequest;
@@ -16,13 +17,24 @@ import java.util.stream.Collectors;
 @Service
 public class UserService {
     private final UserRepository userRepository;
+    private final DepartmentClient departmentClient;
 
-    public UserService(UserRepository userRepository){
+    public UserService(UserRepository userRepository, DepartmentClient departmentClient){
         this.userRepository = userRepository;
+        this.departmentClient = departmentClient;
     }
 
     public List<UserDto> getAllUsers(){
         return userRepository.findAll().stream()
+                .map(UserMapper::mapToUserDto)
+                .collect(Collectors.toList());
+    }
+
+    public List<UserDto> getUsersByDepartmentId(Long departmentId){
+        if (!departmentClient.isDepartmentExist(departmentId)){
+            throw new EntityNotFoundException("Department not found with id: " + departmentId);
+        }
+        return userRepository.findByDepartmentId(departmentId).stream()
                 .map(UserMapper::mapToUserDto)
                 .collect(Collectors.toList());
     }
@@ -74,6 +86,10 @@ public class UserService {
     }
 
     public UserDto addUserToDepartment(Long userId, Long departmentId) {
+        if (!departmentClient.isDepartmentExist(departmentId)) {
+            throw new EntityNotFoundException("Department not found with id: " + departmentId);
+        }
+
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
         user.setDepartmentId(departmentId);

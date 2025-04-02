@@ -43,4 +43,9 @@ public class DepartmentController {
         departmentService.deleteDepartment(departmentId);
         return ResponseEntity.ok("Department deleted successfully");
     }
+
+    @GetMapping("/is-exist/{departmentId}")
+    public boolean isDepartmentExist(@PathVariable Long departmentId){
+        return departmentService.isDepartmentExist(departmentId);
+    }
 }

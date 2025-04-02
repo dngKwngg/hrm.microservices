@@ -54,4 +54,8 @@ public class DepartmentService {
                 .orElseThrow(() -> new EntityNotFoundException("Department not found with id: " + departmentId));
         departmentRepository.deleteById(departmentId);
     }
+
+    public boolean isDepartmentExist(Long departmentId){
+        return departmentRepository.existsById(departmentId);
+    }
 }

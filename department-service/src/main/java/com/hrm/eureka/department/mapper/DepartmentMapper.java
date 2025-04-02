@@ -9,7 +9,6 @@ public class DepartmentMapper {
         department.setDepartmentId(dto.getDepartmentId());
         department.setDepartmentName(dto.getDepartmentName());
         department.setDescription(dto.getDescription());
-        department.setManagerId(dto.getManagerId());
 
         return department;
     }
@@ -19,7 +18,6 @@ public class DepartmentMapper {
         dto.setDepartmentId(department.getDepartmentId());
         dto.setDepartmentName(department.getDepartmentName());
         dto.setDescription(department.getDescription());
-        dto.setManagerId(department.getManagerId());
 
         return dto;
     }

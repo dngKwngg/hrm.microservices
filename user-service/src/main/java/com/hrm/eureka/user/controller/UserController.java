@@ -24,6 +24,11 @@ public class UserController {
         return userService.getAllUsers();
     }
 
+    @GetMapping("/department/{departmentId}")
+    public List<UserDto> getUsersByDepartmentId(@PathVariable Long departmentId) {
+        return userService.getUsersByDepartmentId(departmentId);
+    }
+
     @GetMapping("/{userId}")
     public UserDto getUserById(@PathVariable Long userId) {
         return userService.getUserById(userId);
@@ -34,6 +39,7 @@ public class UserController {
     public UserDto createUser(@RequestBody CreateUserRequest request) {
         return userService.createUser(request);
     }
+
 
     @PutMapping("/{userId}")
     public UserDto updateUser(@PathVariable Long userId, @RequestBody UpdateUserRequest request) {
