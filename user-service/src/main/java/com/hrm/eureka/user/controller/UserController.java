@@ -1,10 +1,8 @@
 package com.hrm.eureka.user.controller;
 
 import com.hrm.eureka.user.dto.UserDto;
-import com.hrm.eureka.user.dto.request.CreateUserRequest;
 import com.hrm.eureka.user.dto.request.UpdateUserRequest;
 import com.hrm.eureka.user.service.UserService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,12 +32,10 @@ public class UserController {
         return userService.getUserById(userId);
     }
 
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public UserDto createUser(@RequestBody CreateUserRequest request) {
-        return userService.createUser(request);
+    @PutMapping("/{userId}/assign-admin")
+    public UserDto assignRoleAdmin(@PathVariable Long userId) {
+        return userService.assignRoleAdmin(userId);
     }
-
 
     @PutMapping("/{userId}")
     public UserDto updateUser(@PathVariable Long userId, @RequestBody UpdateUserRequest request) {

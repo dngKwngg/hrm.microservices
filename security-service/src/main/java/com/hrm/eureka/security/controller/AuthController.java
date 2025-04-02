@@ -1,54 +1,46 @@
 package com.hrm.eureka.security.controller;
 
+import com.hrm.eureka.security.dto.UserDto;
 import com.hrm.eureka.security.dto.request.LoginRequestDto;
+import com.hrm.eureka.security.dto.request.RegisterRequestDto;
 import com.hrm.eureka.security.dto.response.LoginResponseDto;
 import com.hrm.eureka.security.mapper.UserMapper;
 import com.hrm.eureka.security.model.User;
 import com.hrm.eureka.security.principal.UserPrincipal;
 import com.hrm.eureka.security.repository.UserRepository;
+import com.hrm.eureka.security.service.UserService;
 import com.hrm.eureka.security.utils.JwtUtils;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/auth")
 public class AuthController {
+    private final UserService userService;
 
-    private final AuthenticationManager authenticationManager;
-    private final JwtUtils jwtUtils;
-    private final UserRepository userRepository;
-
-    public AuthController(AuthenticationManager authenticationManager, JwtUtils jwtUtils, UserRepository userRepository) {
-        this.authenticationManager = authenticationManager;
-        this.jwtUtils = jwtUtils;
-        this.userRepository = userRepository;
+    public AuthController(UserService userService) {
+        this.userService = userService;
     }
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequestDto loginRequestDto) {
         try {
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(loginRequestDto.getUsername(), loginRequestDto.getPassword())
-            );
-
-            System.out.println(authentication.getPrincipal());
-
-            UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
-//            System.out.println(userPrincipal);
-            String accessToken = jwtUtils.generateToken(userPrincipal);
-            User user = userRepository.findByUsername(userPrincipal.getUsername()).orElseThrow(() -> new RuntimeException("User not found"));
-
-            return ResponseEntity.ok(new LoginResponseDto(accessToken, UserMapper.toUserDto(user)));
+            LoginResponseDto loginResponseDto = userService.loginUser(loginRequestDto);
+            return ResponseEntity.ok(loginResponseDto);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Invalid username or password");
         }
     }
 
+    @PostMapping("/register")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<?> register(@RequestBody RegisterRequestDto registerRequestDto) {
+        UserDto userDto = userService.registerUser(registerRequestDto);
+        return ResponseEntity.ok(userDto);
+    }
 }

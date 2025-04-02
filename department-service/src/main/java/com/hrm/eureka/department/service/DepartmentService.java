@@ -27,7 +27,8 @@ public class DepartmentService {
     public DepartmentDto getDepartmentById(Long departmentId){
         return departmentRepository.findById(departmentId)
                 .map(DepartmentMapper::mapToDepartmentDto)
-                .orElse(null);
+                // Throw exception if department not found
+                .orElseThrow(() -> new EntityNotFoundException("Department not found with id: " + departmentId));
     }
 
     public DepartmentDto createDepartment(DepartmentDto departmentDto){
