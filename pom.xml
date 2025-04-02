@@ -28,6 +28,7 @@
         <module>gateway-server</module>
         <module>user-service</module>
         <module>department-service</module>
+        <module>security-service</module>
     </modules>
 
     <build>
