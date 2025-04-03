@@ -4,6 +4,7 @@ import com.hrm.eureka.department.dto.DepartmentDto;
 import com.hrm.eureka.department.service.DepartmentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,6 +18,7 @@ public class DepartmentController {
         this.departmentService = departmentService;
     }
 
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('ADMIN')")
     @GetMapping
     public List<DepartmentDto> getAllDepartments(){
         return departmentService.getAllDepartments();

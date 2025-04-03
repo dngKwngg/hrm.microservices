@@ -33,7 +33,7 @@ public class JwtUtils {
         System.out.println(user.getAuthorities());
         return Jwts.builder()
                 .setSubject(user.getUsername())
-                .claim("role", user.getAuthorities().stream()
+                .claim("roles", user.getAuthorities().stream()
                         .map(GrantedAuthority::getAuthority)
                         .collect(Collectors.toList()))
                 .setIssuedAt(new Date())
