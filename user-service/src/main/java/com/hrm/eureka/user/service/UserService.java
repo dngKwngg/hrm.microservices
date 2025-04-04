@@ -44,6 +44,13 @@ public class UserService {
                 .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
     }
 
+    public UserDto getCurrentUser(String username) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new EntityNotFoundException("User not found with username: " + username));
+        return UserMapper.mapToUserDto(user);
+    }
+
+
     public UserDto assignRoleAdmin(Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
@@ -56,6 +63,17 @@ public class UserService {
     public UserDto updateUser(Long userId, UpdateUserRequest request) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
+        user.setFirstName(request.getFirstName());
+        user.setLastName(request.getLastName());
+        user.setUpdatedAt(LocalDateTime.now());
+
+        User updatedUser = userRepository.save(user);
+        return UserMapper.mapToUserDto(updatedUser);
+    }
+
+    public UserDto updateCurrentUserInformation(String username, UpdateUserRequest request) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new EntityNotFoundException("User not found with username: " + username));
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
         user.setUpdatedAt(LocalDateTime.now());
