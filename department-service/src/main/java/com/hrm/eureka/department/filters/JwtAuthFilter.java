@@ -52,12 +52,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 String username = claims.getSubject();
 
                 // Check both "role" and "roles" keys to be safe
-                List<String> roles = null;
-                if (claims.get("role") != null) {
-                    roles = claims.get("role", List.class);
-                } else if (claims.get("roles") != null) {
-                    roles = claims.get("roles", List.class);
-                }
+                // Only claim "roles" key
+                List<String> roles = claims.get("roles", List.class);
 
                 if (roles != null) {
                     System.out.println("Extracted Roles: " + roles); // Debugging
