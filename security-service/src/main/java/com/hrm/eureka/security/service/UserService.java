@@ -30,6 +30,7 @@ public class UserService {
     }
 
     public LoginResponseDto loginUser(LoginRequestDto loginRequestDto) {
+        // After this line, Spring looks for a UserDetailsService bean to load the user
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequestDto.getUsername(), loginRequestDto.getPassword())
         );
