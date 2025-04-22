@@ -1,0 +1,13 @@
+INSERT INTO public.permission (id, name) VALUES (4, 'UPDATE_DEPARTMENT');
+INSERT INTO public.permission (id, name) VALUES (5, 'DELETE_DEPARTMENT');
+INSERT INTO public.permission (id, name) VALUES (6, 'READ_USERS_IN_DEPARTMENT');
+INSERT INTO public.permission (id, name) VALUES (7, 'READ_USER_BY_USER_ID');
+INSERT INTO public.permission (id, name) VALUES (8, 'READ_CURRENT_USER');
+INSERT INTO public.permission (id, name) VALUES (9, 'ASSIGN_USER_AS_ADMIN');
+INSERT INTO public.permission (id, name) VALUES (10, 'UPDATE_USER_BY_USER_ID');
+INSERT INTO public.permission (id, name) VALUES (11, 'UPDATE_CURRENT_USER');
+INSERT INTO public.permission (id, name) VALUES (12, 'ASSIGN_USER_TO_DEPARTMENT');
+INSERT INTO public.permission (id, name) VALUES (13, 'DELETE_USER_BY_USER_ID');
+INSERT INTO public.permission (id, name) VALUES (2, 'READ_ALL_DEPARTMENTS');
+INSERT INTO public.permission (id, name) VALUES (3, 'CREATE_DEPARTMENT');
+INSERT INTO public.permission (id, name) VALUES (1, 'READ_ALL_USERS');

@@ -18,7 +18,7 @@ public class DepartmentController {
         this.departmentService = departmentService;
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('READ_ALL_DEPARTMENTS')")
     @GetMapping
     public List<DepartmentDto> getAllDepartments(){
         return departmentService.getAllDepartments();
@@ -30,20 +30,20 @@ public class DepartmentController {
         return departmentService.getDepartmentById(departmentId);
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('CREATE_DEPARTMENT')")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public DepartmentDto createDepartment(@RequestBody DepartmentDto departmentDto){
         return departmentService.createDepartment(departmentDto);
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('UPDATE_DEPARTMENT')")
     @PutMapping("/{departmentId}")
     public DepartmentDto updateDepartment(@PathVariable Long departmentId, @RequestBody DepartmentDto departmentDto){
         return departmentService.updateDepartment(departmentId, departmentDto);
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('DELETE_DEPARTMENT')")
     @DeleteMapping("/{departmentId}")
     public ResponseEntity<?> deleteDepartment(@PathVariable Long departmentId){
         departmentService.deleteDepartment(departmentId);

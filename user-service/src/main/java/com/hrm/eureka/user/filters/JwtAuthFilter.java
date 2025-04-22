@@ -61,7 +61,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                             .collect(Collectors.toList());
 
                     // Also add the original role as an authority for hasAuthority checks
-                    permisisons.forEach(permisison -> authorities.add(new SimpleGrantedAuthority(permisison)));
+//                    permisisons.forEach(permisison -> authorities.add(new SimpleGrantedAuthority(permisison)));
 
                     UsernamePasswordAuthenticationToken authentication =
                             new UsernamePasswordAuthenticationToken(username, null, authorities);

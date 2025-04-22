@@ -1,0 +1,73 @@
+version: '3.8'
+services:
+  discovery-server:
+    build: ./discovery-server
+    ports:
+      - "8761:8761"
+    networks:
+      - hrm-net
+
+  config-server:
+    build: ./config-server
+    ports:
+      - "8888:8888"
+    environment:
+      - SPRING_PROFILES_ACTIVE=default
+    depends_on:
+      - discovery-server
+    networks:
+      - hrm-net
+
+  gateway-server:
+    build: ./gateway-server
+    ports:
+      - "8080:8080"
+    depends_on:
+      - discovery-server
+      - config-server
+    networks:
+      - hrm-net
+
+  user-service:
+    build: ./user-service
+    ports:
+      - "8081:8081"
+    depends_on:
+      - discovery-server
+      - config-server
+    networks:
+      - hrm-net
+
+  department-service:
+    build: ./department-service
+    ports:
+      - "8082:8082"
+    depends_on:
+      - discovery-server
+      - config-server
+    networks:
+      - hrm-net
+
+  permission-service:
+    build: ./permission-service
+    ports:
+      - "8085:8085"
+    depends_on:
+      - discovery-server
+      - config-server
+    networks:
+      - hrm-net
+
+  security-service:
+    build: ./security-service
+    ports:
+      - "8083:8083"
+    depends_on:
+      - discovery-server
+      - config-server
+    networks:
+      - hrm-net
+
+networks:
+  hrm-net:
+    driver: bridge

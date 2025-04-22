@@ -63,7 +63,7 @@ public class UserService {
         user.setFirstName(registerRequestDto.getFirstName());
         user.setLastName(registerRequestDto.getLastName());
         user.setEmail(registerRequestDto.getEmail());
-//        user.setRole("USER");
+        user.setRoleId(2L); // Default role ID for new users
 
         User savedUser = userRepository.save(user);
         return UserMapper.toUserDto(savedUser);

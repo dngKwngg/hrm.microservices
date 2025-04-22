@@ -1,7 +1,7 @@
 package com.hrm.eureka.security.client;
 
-import com.hrm.eureka.permission.dto.RoleDto;
-import com.hrm.eureka.permission.dto.RolePermissionDto;
+import com.hrm.eureka.security.dto.RoleDto;
+import com.hrm.eureka.security.dto.RolePermissionDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

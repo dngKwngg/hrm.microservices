@@ -1,6 +1,6 @@
 package com.hrm.eureka.security.service;
 
-import com.hrm.eureka.permission.dto.RoleDto;
+import com.hrm.eureka.security.dto.RoleDto;
 import com.hrm.eureka.security.client.PermissionClient;
 import com.hrm.eureka.security.model.User;
 import com.hrm.eureka.security.principal.UserPrincipal;
