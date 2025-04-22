@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
+// Class JwtGatewayFilter is a custom filter for Spring Cloud Gateway that checks for JWT tokens in the Authorization header of incoming requests.
 @Component
 public class JwtGatewayFilter extends AbstractGatewayFilterFactory<Object> {
 
@@ -21,11 +22,14 @@ public class JwtGatewayFilter extends AbstractGatewayFilterFactory<Object> {
         this.jwtUtils = jwtUtils;
     }
 
+    // Return a GatewayFilter, Spring Cloud Gateway will call this method for each request
     @Override
     public GatewayFilter apply(Object config) {
         return (exchange, chain) -> {
+            // Get incoming request
             ServerHttpRequest request = exchange.getRequest();
 
+            // Check if the request has an Authorization header
             if (!request.getHeaders().containsKey(HttpHeaders.AUTHORIZATION)) {
                 return onError(exchange, "Missing Authorization Header", HttpStatus.UNAUTHORIZED);
             }
@@ -35,11 +39,14 @@ public class JwtGatewayFilter extends AbstractGatewayFilterFactory<Object> {
                 return onError(exchange, "Invalid Authorization Header", HttpStatus.UNAUTHORIZED);
             }
 
+            // Extract the token from the header
             String token = authHeader.substring(7);
+            // Validate the token
             if (!jwtUtils.validateToken(token)) {
                 return onError(exchange, "Invalid or Expired Token", HttpStatus.UNAUTHORIZED);
             }
 
+            // If the token is valid, proceed with the request
             return chain.filter(exchange);
         };
     }

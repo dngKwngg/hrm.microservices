@@ -29,6 +29,7 @@
         <module>user-service</module>
         <module>department-service</module>
         <module>security-service</module>
+        <module>permission-service</module>
     </modules>
 
     <build>

@@ -1,5 +1,6 @@
 package com.hrm.eureka.security.utils;
 
+import com.hrm.eureka.security.principal.UserPrincipal;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -28,12 +29,13 @@ public class JwtUtils {
     }
 
     // Generate access token
-    public String generateToken(UserDetails user) {
+    public String generateToken(UserPrincipal user) {
         System.out.println(user.getUsername());
         System.out.println(user.getAuthorities());
         return Jwts.builder()
                 .setSubject(user.getUsername())
-                .claim("roles", user.getAuthorities().stream()
+                .claim("roles", user.getRoleName())
+                .claim("permissions", user.getAuthorities().stream()
                         .map(GrantedAuthority::getAuthority)
                         .collect(Collectors.toList()))
                 .setIssuedAt(new Date())
@@ -43,27 +45,27 @@ public class JwtUtils {
     }
 
     // Validate token
-    public boolean validateToken(String token, UserDetails userDetails) {
-        try {
-            String username = extractUsername(token);
-            return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
-        } catch (JwtException | IllegalArgumentException e) {
-            return false; // Token is invalid
-        }
-    }
+//    public boolean validateToken(String token, UserDetails userDetails) {
+//        try {
+//            String username = extractUsername(token);
+//            return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+//        } catch (JwtException | IllegalArgumentException e) {
+//            return false; // Token is invalid
+//        }
+//    }
 
     // Check if token is expired
-    private boolean isTokenExpired(String token) {
-        Date expirationDate = Jwts.parser()
-                .setSigningKey(getSigningKey())
-                .build()
-                .parseClaimsJws(token)
-                .getBody()
-                .getExpiration();
-        return expirationDate.before(new Date());
-    }
+//    private boolean isTokenExpired(String token) {
+//        Date expirationDate = Jwts.parser()
+//                .setSigningKey(getSigningKey())
+//                .build()
+//                .parseClaimsJws(token)
+//                .getBody()
+//                .getExpiration();
+//        return expirationDate.before(new Date());
+//    }
 
-    public String extractUsername(String token) {
-        return Jwts.parser().setSigningKey(getSigningKey()).build().parseClaimsJws(token).getBody().getSubject();
-    }
+//    public String extractUsername(String token) {
+//        return Jwts.parser().setSigningKey(getSigningKey()).build().parseClaimsJws(token).getBody().getSubject();
+//    }
 }

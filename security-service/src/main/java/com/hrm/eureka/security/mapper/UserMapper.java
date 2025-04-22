@@ -5,6 +5,6 @@ import com.hrm.eureka.security.model.User;
 
 public class UserMapper {
     public static UserDto toUserDto(User user) {
-        return new UserDto(user.getUserId(), user.getUsername(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getRole(), user.getDepartmentId());
+        return new UserDto(user.getUserId(), user.getUsername(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getRoleId(), user.getDepartmentId());
     }
 }

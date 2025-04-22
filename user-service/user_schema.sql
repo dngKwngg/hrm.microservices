@@ -15,3 +15,8 @@ CREATE TABLE IF NOT EXISTS users (
 -- ADD department_id BIGINT,
 ALTER TABLE users
     ADD department_id BIGINT;
+
+
+ALTER TABLE users ADD COLUMN role_id INTEGER;
+
+ALTER TABLE users DROP COLUMN role;

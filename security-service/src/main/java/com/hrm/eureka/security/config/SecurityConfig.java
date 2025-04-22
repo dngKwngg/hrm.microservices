@@ -1,6 +1,5 @@
 package com.hrm.eureka.security.config;
 
-import com.hrm.eureka.security.handler.OAuth2LoginSuccessHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,12 +15,6 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
-
-    public SecurityConfig(OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler) {
-        this.oAuth2LoginSuccessHandler = oAuth2LoginSuccessHandler;
-    }
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -31,11 +24,6 @@ public class SecurityConfig {
                         authorizeRequests
                                 .requestMatchers("/api/v1/auth/**").permitAll()
                                 .anyRequest().authenticated()
-                )
-
-                .oauth2Login(oAuth2Login -> oAuth2Login
-                        .loginPage("/api/v1/auth/login/google")
-                        .successHandler(oAuth2LoginSuccessHandler)
                 );
 //                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 

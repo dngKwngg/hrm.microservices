@@ -31,9 +31,14 @@ public class UserService {
 
     public LoginResponseDto loginUser(LoginRequestDto loginRequestDto) {
         // After this line, Spring looks for a UserDetailsService bean to load the user
+//        System.out.println(loginRequestDto.getUsername());
+//        System.out.println(loginRequestDto.getPassword());
+
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequestDto.getUsername(), loginRequestDto.getPassword())
         );
+
+//        System.out.println(authentication.getPrincipal());
 
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
         String accessToken = jwtUtils.generateToken(userPrincipal);
@@ -58,7 +63,7 @@ public class UserService {
         user.setFirstName(registerRequestDto.getFirstName());
         user.setLastName(registerRequestDto.getLastName());
         user.setEmail(registerRequestDto.getEmail());
-        user.setRole("USER");
+//        user.setRole("USER");
 
         User savedUser = userRepository.save(user);
         return UserMapper.toUserDto(savedUser);
