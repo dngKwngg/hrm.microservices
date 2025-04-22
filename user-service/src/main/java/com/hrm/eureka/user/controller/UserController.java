@@ -39,10 +39,8 @@ public class UserController {
 
     @PreAuthorize("hasAuthority('READ_CURRENT_USER')")
     @GetMapping("/me")
-    public UserDto getCurrentUser(@RequestHeader("Authorization") String token) {
+    public UserDto getCurrentUser() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        System.out.println(SecurityContextHolder.getContext().getAuthentication().toString());
-//        System.out.println(username);
         return userService.getCurrentUser(username);
     }
 
@@ -62,7 +60,7 @@ public class UserController {
     @PutMapping("/me")
     public UserDto updateCurrentUser(@RequestBody UpdateUserRequest request) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        return userService.updateCurrentUserInformation(username, request);
+        return userService.updateUser(username, request);
     }
 
     @PreAuthorize("hasAuthority('ASSIGN_USER_TO_DEPARTMENT')")

@@ -1,10 +1,11 @@
 package com.hrm.eureka.user.service;
 
-import com.hrm.eureka.user.client.DepartmentClient;
 import com.hrm.eureka.user.dto.UserDto;
 import com.hrm.eureka.user.dto.request.UpdateUserRequest;
 import com.hrm.eureka.user.mapper.UserMapper;
+import com.hrm.eureka.user.model.Department;
 import com.hrm.eureka.user.model.User;
+import com.hrm.eureka.user.repository.DepartmentRepository;
 import com.hrm.eureka.user.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
@@ -16,11 +17,11 @@ import java.util.stream.Collectors;
 @Service
 public class UserService {
     private final UserRepository userRepository;
-    private final DepartmentClient departmentClient;
+    private final DepartmentRepository departmentRepository;
 
-    public UserService(UserRepository userRepository, DepartmentClient departmentClient){
+    public UserService(UserRepository userRepository, DepartmentRepository departmentRepository){
         this.userRepository = userRepository;
-        this.departmentClient = departmentClient;
+        this.departmentRepository = departmentRepository;
     }
 
     public List<UserDto> getAllUsers(){
@@ -30,9 +31,9 @@ public class UserService {
     }
 
     public List<UserDto> getUsersByDepartmentId(Long departmentId){
-        if (!departmentClient.isDepartmentExist(departmentId)){
-            throw new EntityNotFoundException("Department not found with id: " + departmentId);
-        }
+        Department department = departmentRepository.findById(departmentId)
+                .orElseThrow(() -> new EntityNotFoundException("Department not found with id: " + departmentId));
+
         return userRepository.findByDepartmentId(departmentId).stream()
                 .map(UserMapper::mapToUserDto)
                 .collect(Collectors.toList());
@@ -55,7 +56,7 @@ public class UserService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
 
-        user.setRole("ADMIN");
+        user.setRoleId(1L); // Assuming 1 is the role ID for admin
         User savedUser = userRepository.save(user);
         return UserMapper.mapToUserDto(savedUser);
     }
@@ -71,7 +72,7 @@ public class UserService {
         return UserMapper.mapToUserDto(updatedUser);
     }
 
-    public UserDto updateCurrentUserInformation(String username, UpdateUserRequest request) {
+    public UserDto updateUser(String username, UpdateUserRequest request) {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new EntityNotFoundException("User not found with username: " + username));
         user.setFirstName(request.getFirstName());
@@ -83,9 +84,8 @@ public class UserService {
     }
 
     public UserDto addUserToDepartment(Long userId, Long departmentId) {
-        if (!departmentClient.isDepartmentExist(departmentId)) {
-            throw new EntityNotFoundException("Department not found with id: " + departmentId);
-        }
+        Department department = departmentRepository.findById(departmentId)
+                .orElseThrow(() -> new EntityNotFoundException("Department not found with id: " + departmentId));
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));

@@ -11,7 +11,7 @@ public class UserMapper {
                 user.getFirstName(),
                 user.getLastName(),
                 user.getEmail(),
-                user.getRole(),
+                user.getRoleId(),
                 user.getDepartmentId(),
                 user.isActive()
         );
@@ -24,7 +24,7 @@ public class UserMapper {
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
         user.setEmail(userDto.getEmail());
-        user.setRole(userDto.getRole());
+        user.setRoleId(userDto.getRoleId());
         user.setDepartmentId(userDto.getDepartmentId());
         user.setActive(userDto.isActive());
 

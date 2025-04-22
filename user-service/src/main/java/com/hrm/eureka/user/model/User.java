@@ -32,7 +32,8 @@ public class User {
 
     private String email;
 
-    private String role;
+    @Column(name = "role_id", nullable = false)
+    private Long roleId;
 
     @Column(name = "department_id")
     private Long departmentId;

@@ -53,15 +53,17 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
                 // Check both "role" and "roles" keys to be safe
                 // Only claim "roles" key
-                List<String> permisisons = claims.get("permisisons", List.class);
+                List<String> permissions = claims.get("permissions", List.class);
 
-                if (permisisons != null) {
-                    System.out.println("Extracted Roles: " + permisisons); // Debugging
+                if (permissions != null) {
+                    System.out.println("Extracted Roles: " + permissions); // Debugging
 
                     // Convert roles to authorities with ROLE_ prefix
-                    List<GrantedAuthority> authorities = permisisons.stream()
+                    List<GrantedAuthority> authorities = permissions.stream()
                             .map(permission -> new SimpleGrantedAuthority(permission))
                             .collect(Collectors.toList());
+
+                    System.out.println("Authorities: " + authorities);
 
                     // Also add the original role as an authority for hasAuthority checks
 //                    permisisons.forEach(permisison -> authorities.add(new SimpleGrantedAuthority(permisison)));
