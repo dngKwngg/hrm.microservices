@@ -28,8 +28,8 @@
         <module>gateway-server</module>
         <module>user-service</module>
         <module>department-service</module>
-        <module>security-service</module>
-        <module>permission-service</module>
+        <module>common-service</module>
+<!--        <module>permission-service</module>-->
     </modules>
 
     <build>
