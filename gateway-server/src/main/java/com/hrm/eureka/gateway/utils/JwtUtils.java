@@ -1,6 +1,7 @@
 package com.hrm.eureka.gateway.utils;
 
 import com.hrm.eureka.gateway.config.JwtProperties;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.security.Keys;
@@ -34,9 +35,11 @@ public class JwtUtils {
         }
     }
 
-//    @PostConstruct
-//    public void logJwtInfo() {
-//        System.out.println("✅ Loaded secret: " + jwtProperties.getSecret());
-//        System.out.println("✅ Loaded expiration: " + jwtProperties.getExpiration());
-//    }
+    public Claims extractAllClaims(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(getSigningKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+    }
 }

@@ -1,6 +1,7 @@
 package com.hrm.eureka.gateway.filters;
 
 import com.hrm.eureka.gateway.utils.JwtUtils;
+import io.jsonwebtoken.Claims;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.http.HttpHeaders;
@@ -10,6 +11,8 @@ import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
+
+import java.util.List;
 
 // Class JwtGatewayFilter is a custom filter for Spring Cloud Gateway that checks for JWT tokens in the Authorization header of incoming requests.
 @Component
@@ -46,8 +49,22 @@ public class JwtGatewayFilter extends AbstractGatewayFilterFactory<Object> {
                 return onError(exchange, "Invalid or Expired Token", HttpStatus.UNAUTHORIZED);
             }
 
+            Claims claims = jwtUtils.extractAllClaims(token);
+            String username = claims.getSubject();
+
+            List<String> permissions = claims.get("permissions", List.class);
+
+            // Mutating the request to add custom headers
+            // Get a mutable builder for the request
+            ServerHttpRequest mutatedRequest = request.mutate()
+                    // Add custom headers
+                    .header("X-Auth-User", username)
+                    // Add permissions as a comma-separated string
+                    .header("X-Auth-Permissions", String.join(",", permissions))
+                    .build();
+
             // If the token is valid, proceed with the request
-            return chain.filter(exchange);
+            return chain.filter(exchange.mutate().request(mutatedRequest).build());
         };
     }
 
