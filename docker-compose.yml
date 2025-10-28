@@ -1,73 +1,15 @@
-version: '3.8'
 services:
-  discovery-server:
-    build: ./discovery-server
-    ports:
-      - "8761:8761"
-    networks:
-      - hrm-net
-
-  config-server:
-    build: ./config-server
-    ports:
-      - "8888:8888"
+  postgres:
+    image: postgres:17
+    container_name: hrm.postgres
     environment:
-      - SPRING_PROFILES_ACTIVE=default
-    depends_on:
-      - discovery-server
-    networks:
-      - hrm-net
-
-  gateway-server:
-    build: ./gateway-server
+        POSTGRES_USER: postgres
+        POSTGRES_PASSWORD: postgres
+        POSTGRES_DB: hrm.microservices
     ports:
-      - "8080:8080"
-    depends_on:
-      - discovery-server
-      - config-server
-    networks:
-      - hrm-net
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
 
-  user-service:
-    build: ./user-service
-    ports:
-      - "8081:8081"
-    depends_on:
-      - discovery-server
-      - config-server
-    networks:
-      - hrm-net
-
-  department-service:
-    build: ./department-service
-    ports:
-      - "8082:8082"
-    depends_on:
-      - discovery-server
-      - config-server
-    networks:
-      - hrm-net
-
-  permission-service:
-    build: ./permission-service
-    ports:
-      - "8085:8085"
-    depends_on:
-      - discovery-server
-      - config-server
-    networks:
-      - hrm-net
-
-  security-service:
-    build: ./security-service
-    ports:
-      - "8083:8083"
-    depends_on:
-      - discovery-server
-      - config-server
-    networks:
-      - hrm-net
-
-networks:
-  hrm-net:
-    driver: bridge
+volumes:
+  postgres-data:

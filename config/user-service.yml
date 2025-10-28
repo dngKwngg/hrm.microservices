@@ -1,13 +1,13 @@
 server:
-  port: 8082
+  port: 8081
 
 spring:
   application:
-    name: department-service
+    name: user-service
   datasource:
-    url: jdbc:postgresql://localhost:5433/hrm_role_permission
+    url: jdbc:postgresql://localhost:5432/hrm.microservices
     username: postgres
-    password: dangquang1009
+    password: postgres
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
@@ -15,3 +15,4 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
+

@@ -7,8 +7,10 @@ spring:
     config:
       server:
         git:
-          uri: https://github.com/dngKwngg/spring-cloud-config-server-hrm.git
+          uri: https://github.com/dngKwngg/hrm.microservices
+          search-paths:
+            - config/user-service.yml
+            - config/department-service.yml
+            - config/gateway-server.yml
+            - config/common-service.yml
           clone-on-start: true
-
-
-

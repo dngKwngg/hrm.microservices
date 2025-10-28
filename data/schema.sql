@@ -54,7 +54,7 @@ CREATE TABLE IF NOT EXISTS users (
 ALTER TABLE users
     ADD CONSTRAINT fk_users_roles
         FOREIGN KEY (role_id)
-            REFERENCES roles (id)
+            REFERENCES role (id)
             ON DELETE CASCADE;
 
 -- Add foreign key constraint to the table users and set the foreign key to the table departments
