@@ -104,12 +104,12 @@
 			<artifactId>feign-slf4j</artifactId>
 		</dependency>
 
-		<dependency>
-			<groupId>com.hrm.eureka</groupId>
-			<artifactId>permission</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-			<scope>compile</scope>
-		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>com.hrm.eureka</groupId>-->
+<!--			<artifactId>permission</artifactId>-->
+<!--			<version>0.0.1-SNAPSHOT</version>-->
+<!--			<scope>compile</scope>-->
+<!--		</dependency>-->
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-api</artifactId>
