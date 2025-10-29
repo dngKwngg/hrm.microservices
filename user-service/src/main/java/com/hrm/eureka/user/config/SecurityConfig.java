@@ -43,6 +43,7 @@ public class SecurityConfig {
         return http.build();
     }
 
+    // This will disable the auto-generated password
     @Bean
     public UserDetailsService userDetailsService() {
         return username -> {
@@ -50,4 +51,3 @@ public class SecurityConfig {
         };
     }
 }
-
