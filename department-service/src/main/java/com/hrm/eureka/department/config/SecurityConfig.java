@@ -1,6 +1,7 @@
 package com.hrm.eureka.department.config;
 
 import com.hrm.eureka.department.filters.JwtRequestFilter;
+import com.hrm.eureka.department.filters.RequestLoggingFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -18,9 +19,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableMethodSecurity
 public class SecurityConfig {
     private final JwtRequestFilter jwtRequestFilter;
+    private final RequestLoggingFilter requestLoggingFilter;
 
-    public SecurityConfig(JwtRequestFilter jwtRequestFilter) {
+    public SecurityConfig(JwtRequestFilter jwtRequestFilter, RequestLoggingFilter requestLoggingFilter) {
         this.jwtRequestFilter = jwtRequestFilter;
+        this.requestLoggingFilter = requestLoggingFilter;
     }
 
     @Bean
@@ -28,14 +31,12 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-//                        .requestMatchers("/api/v1/auth/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
-
-        // Disable the default HTTP Basic authentication
-        http.httpBasic(AbstractHttpConfigurer::disable);
+                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(requestLoggingFilter, JwtRequestFilter.class)
+                .httpBasic(AbstractHttpConfigurer::disable);
 
         return http.build();
     }
