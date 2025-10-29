@@ -1,6 +1,7 @@
 package com.hrm.eureka.user.config;
 
 import com.hrm.eureka.user.filters.JwtRequestFilter;
+import com.hrm.eureka.user.filters.RequestLoggingFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -17,10 +18,13 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
-    private final JwtRequestFilter jwtRequestFilter;
 
-    public SecurityConfig(JwtRequestFilter jwtRequestFilter) {
+    private final JwtRequestFilter jwtRequestFilter;
+    private final RequestLoggingFilter requestLoggingFilter;
+
+    public SecurityConfig(JwtRequestFilter jwtRequestFilter, RequestLoggingFilter requestLoggingFilter) {
         this.jwtRequestFilter = jwtRequestFilter;
+        this.requestLoggingFilter = requestLoggingFilter;
     }
 
     @Bean
@@ -28,19 +32,17 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-//                        .requestMatchers("/api/v1/auth/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
-
-        // Disable the default HTTP Basic authentication
-        http.httpBasic(AbstractHttpConfigurer::disable);
+                // order: logging → jwt → username/password
+                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(requestLoggingFilter, JwtRequestFilter.class)
+                .httpBasic(AbstractHttpConfigurer::disable);
 
         return http.build();
     }
 
-    // This will disable the auto-generated password
     @Bean
     public UserDetailsService userDetailsService() {
         return username -> {
@@ -48,3 +50,4 @@ public class SecurityConfig {
         };
     }
 }
+
