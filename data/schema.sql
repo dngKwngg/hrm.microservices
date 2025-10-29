@@ -26,7 +26,7 @@ CREATE TABLE role_permission (
 );
 
 -- Table: Departments
-CREATE TABLE IF NOT EXISTS departments (
+CREATE TABLE IF NOT EXISTS department (
                                            id BIGSERIAL PRIMARY KEY,
                                            name VARCHAR(100) NOT NULL UNIQUE,
     description TEXT,
@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS departments (
 
 -- Table: Users
 
-CREATE TABLE IF NOT EXISTS users (
+CREATE TABLE IF NOT EXISTS user (
                                      id BIGSERIAL PRIMARY KEY,
                                      username VARCHAR(50) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
@@ -51,15 +51,15 @@ CREATE TABLE IF NOT EXISTS users (
     );
 
 -- Add foreign key constraint to the table users and set the foreign key to the table roles
-ALTER TABLE users
+ALTER TABLE user
     ADD CONSTRAINT fk_users_roles
         FOREIGN KEY (role_id)
             REFERENCES role (id)
             ON DELETE CASCADE;
 
 -- Add foreign key constraint to the table users and set the foreign key to the table departments
-ALTER TABLE users
+ALTER TABLE user
     ADD CONSTRAINT fk_users_departments
         FOREIGN KEY (department_id)
-            REFERENCES departments (id)
+            REFERENCES department (id)
             ON DELETE CASCADE;
