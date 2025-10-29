@@ -1,5 +1,5 @@
 # hrm.microservices
-Microservices Backend about HRM made when intern at @VTI
+Microservices Backend about HRM made with Spring Boot and Spring Cloud
 
 ## How to run
 1. Clone the repository
