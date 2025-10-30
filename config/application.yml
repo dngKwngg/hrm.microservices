@@ -7,5 +7,5 @@ eureka:
 
 security:
   jwt:
-    secret: my-name-is-quang-from-vnu-uet-and-vti-d2
+    secret: quangnd4@vnpay@22LangHa
     expiration: 3600000

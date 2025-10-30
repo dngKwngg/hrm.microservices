@@ -1,5 +1,6 @@
 package com.hrm.eureka.common.model;
 
+import com.hrm.eureka.common.constants.RoleType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,6 +17,7 @@ public class Role {
     @Column(name="id")
     private Long roleId;
 
+    @Enumerated(EnumType.STRING)
     @Column(name="name", nullable = false, unique = true)
-    private String roleName;
+    private RoleType roleName;
 }

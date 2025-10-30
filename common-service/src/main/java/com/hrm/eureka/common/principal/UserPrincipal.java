@@ -1,5 +1,6 @@
 package com.hrm.eureka.common.principal;
 
+import com.hrm.eureka.common.constants.RoleType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,6 +17,6 @@ public class UserPrincipal implements UserDetails {
     private String username;
     private String password;
     private Long departmentId;
-    private String roleName;
+    private RoleType roleName;
     private Collection<? extends GrantedAuthority> authorities;
 }
