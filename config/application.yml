@@ -7,5 +7,5 @@ eureka:
 
 security:
   jwt:
-    secret: quangnd4@vnpay@22LangHa
+    secret: quangnd4vnpay22LangHa
     expiration: 3600000
