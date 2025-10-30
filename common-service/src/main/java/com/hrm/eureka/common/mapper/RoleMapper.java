@@ -1,5 +1,6 @@
 package com.hrm.eureka.common.mapper;
 
+import com.hrm.eureka.common.constants.RoleType;
 import com.hrm.eureka.common.dto.RoleDto;
 import com.hrm.eureka.common.model.Role;
 
