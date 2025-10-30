@@ -20,7 +20,7 @@ public class RolePermissionMapper {
             return null;
         }
         PermissionDto permissionDto = new PermissionDto();
-        permissionDto.setPermissionId(rolePermission.getPermission().getPermissionId());
+//        permissionDto.setPermissionId(rolePermission.getPermission().getPermissionId());
         permissionDto.setPermissionName(rolePermission.getPermission().getPermissionName());
         return permissionDto;
     }

@@ -6,6 +6,7 @@ import com.hrm.eureka.common.dto.request.RegisterRequestDto;
 import com.hrm.eureka.common.dto.response.LoginResponseDto;
 import com.hrm.eureka.common.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -26,7 +27,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequestDto loginRequestDto) {
+    public ResponseEntity<?> login(@Valid @RequestBody LoginRequestDto loginRequestDto) {
         log.info("[Common Service] POST /api/v1/auth/login");
         try {
             LoginResponseDto loginResponseDto = userService.loginUser(loginRequestDto);
@@ -38,7 +39,7 @@ public class AuthController {
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<?> register(@RequestBody RegisterRequestDto registerRequestDto) {
+    public ResponseEntity<?> register(@Valid @RequestBody RegisterRequestDto registerRequestDto) {
         log.info("[Common Service] POST /api/v1/auth/register");
         UserDto userDto = userService.registerUser(registerRequestDto);
         return ResponseEntity.ok(userDto);

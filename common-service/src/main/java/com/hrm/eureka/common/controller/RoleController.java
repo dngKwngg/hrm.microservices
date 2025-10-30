@@ -26,28 +26,4 @@ public class RoleController {
         log.info("[Common Service] GET /api/v1/role-permission/roles");
         return roleService.getAllRoles();
     }
-
-    @PreAuthorize("hasAuthority('CREATE_ROLE')")
-    @PostMapping("/roles")
-    public RoleDto createRole(@RequestBody RoleDto roleDto) {
-        log.info("[Common Service] POST /api/v1/role-permission/roles");
-        return roleService.createRole(roleDto);
-    }
-
-    @PreAuthorize("hasAuthority('UPDATE_ROLE')")
-    @PutMapping("/roles/{roleId}")
-    public RoleDto updateRole(@PathVariable Long roleId, @RequestBody RoleDto roleDto) {
-        log.info("[Common Service] PUT /api/v1/role-permission/roles/{}", roleId);
-        return roleService.updateRole(roleId, roleDto);
-    }
-
-    @PreAuthorize("hasAuthority('DELETE_ROLE')")
-    @DeleteMapping("/roles/{roleId}")
-    public ResponseEntity<?> deleteRole(@PathVariable Long roleId) {
-        log.info("[Common Service] DELETE /api/v1/role-permission/roles/{}", roleId);
-        roleService.deleteRole(roleId);
-        return ResponseEntity.ok("Deleted successfully");
-    }
-
-
 }

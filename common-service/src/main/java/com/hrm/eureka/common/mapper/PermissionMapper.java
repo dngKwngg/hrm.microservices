@@ -10,7 +10,6 @@ public class PermissionMapper {
             return null;
         }
         PermissionDto permissionDto = new PermissionDto();
-        permissionDto.setPermissionId(permission.getPermissionId());
         permissionDto.setPermissionName(permission.getPermissionName());
         return permissionDto;
     }
@@ -20,7 +19,6 @@ public class PermissionMapper {
             return null;
         }
         Permission permission = new Permission();
-        permission.setPermissionId(permissionDto.getPermissionId());
         permission.setPermissionName(permissionDto.getPermissionName());
         return permission;
     }

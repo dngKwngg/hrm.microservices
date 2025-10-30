@@ -1,5 +1,6 @@
 package com.hrm.eureka.common.service;
 
+import com.hrm.eureka.common.constants.RoleType;
 import com.hrm.eureka.common.dto.UserDto;
 import com.hrm.eureka.common.dto.request.LoginRequestDto;
 import com.hrm.eureka.common.dto.request.RegisterRequestDto;
@@ -69,7 +70,7 @@ public class UserService {
             throw new IllegalArgumentException("Email already exists");
         }
 
-        Role role = roleRepository.findByRoleName("USER");
+        Role role = roleRepository.findByRoleName(RoleType.USER);
 
         User user = new User();
         user.setUsername(registerRequestDto.getUsername());

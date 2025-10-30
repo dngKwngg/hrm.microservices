@@ -2,6 +2,7 @@ package com.hrm.eureka.common.controller;
 
 import com.hrm.eureka.common.dto.PermissionDto;
 import com.hrm.eureka.common.service.PermissionService;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -30,14 +31,14 @@ public class PermissionController {
 
     @PreAuthorize("hasAuthority('CREATE_PERMISSION')")
     @PostMapping("/permissions")
-    public PermissionDto createPermission(@RequestBody PermissionDto permissionDto) {
+    public PermissionDto createPermission(@Valid @RequestBody PermissionDto permissionDto) {
         log.info("[Common Service] POST /api/v1/role-permission/permissions");
         return permissionService.createPermission(permissionDto);
     }
 
     @PreAuthorize("hasAuthority('UPDATE_PERMISSION')")
     @PutMapping("/permissions/{permissionId}")
-    public PermissionDto updatePermission(@PathVariable Long permissionId, @RequestBody PermissionDto permissionDto) {
+    public PermissionDto updatePermission(@PathVariable Long permissionId, @Valid @RequestBody PermissionDto permissionDto) {
         log.info("[Common Service] PUT /api/v1/role-permission/permissions/{}", permissionId);
         return permissionService.updatePermission(permissionId, permissionDto);
     }
