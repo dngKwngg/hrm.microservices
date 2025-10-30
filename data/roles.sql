@@ -1,3 +1,3 @@
-insert into public.roles (id, name)
-values  (1, 'ADMIN'),
-        (2, 'USER');
+insert into public.roles (name)
+values  ('ADMIN'),
+        ('USER');

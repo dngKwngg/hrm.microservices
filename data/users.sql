@@ -1,4 +1,4 @@
-insert into public.users (id, username, password, first_name, last_name, email, role_id, department_id, active, created_at, updated_at)
-values  (1, 'quangnguyenvk@gmail.com', '$2a$12$zXWR5Gyt/FMImoS3yWmPhejGm0aUN/PZ9SImv25ZBDCJiylT3YE1G', 'Nguyen Dang', 'Quang', 'quangnguyenvk@gmail.com', 1, 1, true, '2025-04-02 10:49:21.995403', '2025-04-02 11:40:47.471271'),
-        (9, 'vinh@gmail.com', '$2a$10$8SPifCwik7xv1QU.M7hwp.atiK5uKlxGRbNF3bjD9WLKB4t2mNfhi', 'Nguyen Dang', 'Vinh', 'vinh@gmail.com', 2, 2, true, '2025-04-22 11:12:18.067297', '2025-04-22 14:48:36.673358'),
-        (5, 'lai@gmail.com', '$2a$12$zXWR5Gyt/FMImoS3yWmPhejGm0aUN/PZ9SImv25ZBDCJiylT3YE1G', 'Nguyen Nhat', 'Lai', 'lai@gmail.com', 1, 2, true, '2025-04-02 10:58:44.505051', '2025-04-22 15:12:53.313756');
+insert into public.users (username, password, first_name, last_name, email, role_id, department_id, active, created_at, updated_at)
+values  ('quangnguyenvk@gmail.com', '$2a$12$zXWR5Gyt/FMImoS3yWmPhejGm0aUN/PZ9SImv25ZBDCJiylT3YE1G', 'Nguyen Dang', 'Quang', 'quangnguyenvk@gmail.com', 1, 1, true, '2025-04-02 10:49:21.995403', '2025-04-02 11:40:47.471271'),
+        ('vinh@gmail.com', '$2a$10$8SPifCwik7xv1QU.M7hwp.atiK5uKlxGRbNF3bjD9WLKB4t2mNfhi', 'Nguyen Dang', 'Vinh', 'vinh@gmail.com', 2, 2, true, '2025-04-22 11:12:18.067297', '2025-04-22 14:48:36.673358'),
+        ('lai@gmail.com', '$2a$12$zXWR5Gyt/FMImoS3yWmPhejGm0aUN/PZ9SImv25ZBDCJiylT3YE1G', 'Nguyen Nhat', 'Lai', 'lai@gmail.com', 1, 2, true, '2025-04-02 10:58:44.505051', '2025-04-22 15:12:53.313756');
