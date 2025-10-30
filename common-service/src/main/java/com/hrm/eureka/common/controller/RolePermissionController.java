@@ -24,7 +24,7 @@ public class RolePermissionController {
 
     @PreAuthorize("hasAuthority('GET_PERMISSIONS_BY_ROLE')")
     @GetMapping("/role/{roleId}/permissions")
-    public List<PermissionDto> getPermissionsByRoleId(@PathVariable Long roleId) {
+    public List<String> getPermissionsByRoleId(@PathVariable Long roleId) {
         log.info("[Common Service] GET /api/v1/role-permission/role/{}/permissions", roleId);
         return rolePermissionService.getPermissionsByRoleId(roleId);
     }

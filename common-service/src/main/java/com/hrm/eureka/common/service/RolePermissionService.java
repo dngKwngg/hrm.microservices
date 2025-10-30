@@ -19,10 +19,10 @@ public class RolePermissionService {
         this.rolePermissionRepository = rolePermissionRepository;
     }
 
-    public List<PermissionDto> getPermissionsByRoleId(Long roleId) {
+    public List<String> getPermissionsByRoleId(Long roleId) {
         log.info("[Common Service] Getting permissions for role ID: {}", roleId);
         return rolePermissionRepository.findAllPermissionByRoleId(roleId).stream()
-                .map(RolePermissionMapper::toPermissionDto)
+                .map(rolePermission -> rolePermission.getPermission().getPermissionName())
                 .collect(Collectors.toList());
     }
 
