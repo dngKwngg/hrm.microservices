@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.hrm.eureka</groupId>
-	<artifactId>security</artifactId>
+	<artifactId>common-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>common-service</name>
 	<description>Common Service for hrm project</description>
