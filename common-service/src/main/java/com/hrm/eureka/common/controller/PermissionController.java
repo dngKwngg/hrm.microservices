@@ -1,10 +1,12 @@
 package com.hrm.eureka.common.controller;
 
+import com.hrm.eureka.common.dto.CommonResponse;
 import com.hrm.eureka.common.dto.PermissionDto;
 import com.hrm.eureka.common.service.PermissionService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -23,31 +25,30 @@ public class PermissionController {
 
     @PreAuthorize("hasAuthority('READ_ALL_PERMISSIONS')")
     @GetMapping("/permissions")
-    public List<PermissionDto> getAllPermissions() {
+    public CommonResponse getAllPermissions() {
         log.info("[Common Service] GET /api/v1/role-permission/permissions");
-        // Assuming permissionService is a service that fetches permissions from the database
         return permissionService.getAllPermissions();
     }
 
     @PreAuthorize("hasAuthority('CREATE_PERMISSION')")
     @PostMapping("/permissions")
-    public PermissionDto createPermission(@Valid @RequestBody PermissionDto permissionDto) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public CommonResponse createPermission(@Valid @RequestBody PermissionDto permissionDto) {
         log.info("[Common Service] POST /api/v1/role-permission/permissions");
         return permissionService.createPermission(permissionDto);
     }
 
     @PreAuthorize("hasAuthority('UPDATE_PERMISSION')")
     @PutMapping("/permissions/{permissionId}")
-    public PermissionDto updatePermission(@PathVariable Long permissionId, @Valid @RequestBody PermissionDto permissionDto) {
+    public CommonResponse updatePermission(@PathVariable Long permissionId, @Valid @RequestBody PermissionDto permissionDto) {
         log.info("[Common Service] PUT /api/v1/role-permission/permissions/{}", permissionId);
         return permissionService.updatePermission(permissionId, permissionDto);
     }
 
     @PreAuthorize("hasAuthority('DELETE_PERMISSION')")
     @DeleteMapping("/permissions/{permissionId}")
-    public ResponseEntity<?> deletePermission(@PathVariable Long permissionId) {
+    public CommonResponse deletePermission(@PathVariable Long permissionId) {
         log.info("[Common Service] DELETE /api/v1/role-permission/permissions/{}", permissionId);
-        permissionService.deletePermission(permissionId);
-        return ResponseEntity.ok("Deleted successfully");
+        return permissionService.deletePermission(permissionId);
     }
 }

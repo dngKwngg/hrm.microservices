@@ -1,6 +1,8 @@
 package com.hrm.eureka.common.service;
 
 
+import com.hrm.eureka.common.constants.ResponseCode;
+import com.hrm.eureka.common.dto.CommonResponse;
 import com.hrm.eureka.common.dto.PermissionDto;
 import com.hrm.eureka.common.dto.RoleDto;
 import com.hrm.eureka.common.mapper.RoleMapper;
@@ -28,9 +30,9 @@ public class RoleService {
         this.rolePermissionRepository = rolePermissionRepository;
     }
 
-    public List<RoleDto> getAllRoles() {
+    public CommonResponse getAllRoles() {
         log.info("[Common Service] Getting all roles");
-        return roleRepository.findAll().stream()
+        List<RoleDto> roleDtos = roleRepository.findAll().stream()
                 .map(role -> {
                     RoleDto roleDto = RoleMapper.toRoleDto(role);
                     List<String> permissions = rolePermissionRepository.findAllPermissionByRoleId(role.getRoleId()).stream()
@@ -39,6 +41,8 @@ public class RoleService {
                     roleDto.setPermissions(permissions);
                     return roleDto;
                 })
-                .collect(Collectors.toList());
+                .toList();
+
+        return new CommonResponse(ResponseCode.SUCCESS, roleDtos);
     }
 }

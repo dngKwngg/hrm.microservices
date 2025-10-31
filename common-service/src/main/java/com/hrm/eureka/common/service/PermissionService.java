@@ -1,5 +1,7 @@
 package com.hrm.eureka.common.service;
 
+import com.hrm.eureka.common.constants.ResponseCode;
+import com.hrm.eureka.common.dto.CommonResponse;
 import com.hrm.eureka.common.dto.PermissionDto;
 import com.hrm.eureka.common.mapper.PermissionMapper;
 import com.hrm.eureka.common.model.Permission;
@@ -22,21 +24,23 @@ public class PermissionService {
         this.permissionRepository = permissionRepository;
     }
 
-    public List<PermissionDto> getAllPermissions() {
+    public CommonResponse getAllPermissions() {
         log.info("[Common Service] Getting all permissions");
-        return permissionRepository.findAll().stream()
-                .map(PermissionMapper::toPermissionDto)
-                .collect(Collectors.toList());
+        List<String> permissions = permissionRepository.findAll().stream()
+                .map(Permission::getPermissionName)
+                .toList();
+
+        return new CommonResponse(ResponseCode.SUCCESS, permissions);
     }
 
-    public PermissionDto createPermission(PermissionDto permissionDto) {
+    public CommonResponse createPermission(PermissionDto permissionDto) {
         log.info("[Common Service] Creating a new permission");
         Permission permission = PermissionMapper.toPermission(permissionDto);
         Permission savedPermission = permissionRepository.save(permission);
-        return PermissionMapper.toPermissionDto(savedPermission);
+        return new CommonResponse(ResponseCode.CREATED, savedPermission);
     }
 
-    public PermissionDto updatePermission(Long permissionId, PermissionDto permissionDto) {
+    public CommonResponse updatePermission(Long permissionId, PermissionDto permissionDto) {
         log.info("[Common Service] Updating permission with ID: {}", permissionId);
         Optional<Permission> optionalPermission = permissionRepository.findById(permissionId);
         if (optionalPermission.isEmpty()) {
@@ -47,15 +51,16 @@ public class PermissionService {
         permission.setPermissionName(permissionDto.getPermissionName());
 
         Permission updatedPermission = permissionRepository.save(permission);
-        return PermissionMapper.toPermissionDto(updatedPermission);
+        return new CommonResponse(ResponseCode.SUCCESS, PermissionMapper.toPermissionDto(updatedPermission));
     }
 
-    public void deletePermission(Long permissionId) {
+    public CommonResponse deletePermission(Long permissionId) {
         log.info("[Common Service] Deleting permission with ID: {}", permissionId);
         if (!permissionRepository.existsById(permissionId)) {
             log.error("[Common Service] Permission not found");
             throw new EntityNotFoundException("Permission not found");
         }
         permissionRepository.deleteById(permissionId);
+        return new CommonResponse(ResponseCode.SUCCESS, "");
     }
 }

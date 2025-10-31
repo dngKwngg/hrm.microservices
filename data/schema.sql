@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS user (
     last_name VARCHAR(50) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
     role_id INTEGER NOT NULL,
-    department_id BIGINT,
+    department_id INTEGER NOT NULL,
     active BOOLEAN NOT NULL DEFAULT TRUE,
     created_at TIMESTAMP NOT NULL,
     updated_at TIMESTAMP

@@ -1,5 +1,6 @@
 package com.hrm.eureka.common.controller;
 
+import com.hrm.eureka.common.dto.CommonResponse;
 import com.hrm.eureka.common.dto.UserDto;
 import com.hrm.eureka.common.dto.request.LoginRequestDto;
 import com.hrm.eureka.common.dto.request.RegisterRequestDto;
@@ -27,21 +28,15 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@Valid @RequestBody LoginRequestDto loginRequestDto) {
+    public CommonResponse login(@Valid @RequestBody LoginRequestDto loginRequestDto) {
         log.info("[Common Service] POST /api/v1/auth/login");
-        try {
-            LoginResponseDto loginResponseDto = userService.loginUser(loginRequestDto);
-            return ResponseEntity.ok(loginResponseDto);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Invalid username or password");
-        }
+        return userService.loginUser(loginRequestDto);
     }
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<?> register(@Valid @RequestBody RegisterRequestDto registerRequestDto) {
+    public CommonResponse register(@Valid @RequestBody RegisterRequestDto registerRequestDto) {
         log.info("[Common Service] POST /api/v1/auth/register");
-        UserDto userDto = userService.registerUser(registerRequestDto);
-        return ResponseEntity.ok(userDto);
+        return userService.registerUser(registerRequestDto);
     }
 }

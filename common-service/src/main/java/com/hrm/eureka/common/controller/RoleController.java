@@ -1,5 +1,6 @@
 package com.hrm.eureka.common.controller;
 
+import com.hrm.eureka.common.dto.CommonResponse;
 import com.hrm.eureka.common.dto.RoleDto;
 import com.hrm.eureka.common.service.RoleService;
 import org.slf4j.Logger;
@@ -22,7 +23,7 @@ public class RoleController {
 
     @PreAuthorize("hasAuthority('READ_ALL_ROLES')")
     @GetMapping("/roles")
-    public List<RoleDto> getAllRoles() {
+    public CommonResponse getAllRoles() {
         log.info("[Common Service] GET /api/v1/role-permission/roles");
         return roleService.getAllRoles();
     }

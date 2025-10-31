@@ -36,8 +36,9 @@ public class User {
     @JoinColumn(name = "role_id", referencedColumnName = "id")
     private Role role;
 
-    @Column(name = "department_id")
-    private Long departmentId;
+    @ManyToOne
+    @JoinColumn(name = "department_id", referencedColumnName = "id")
+    private Department department;
 
     private boolean active = true;
 

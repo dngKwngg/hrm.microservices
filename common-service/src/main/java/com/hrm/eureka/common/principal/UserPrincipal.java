@@ -16,7 +16,7 @@ public class UserPrincipal implements UserDetails {
     private Long userId;
     private String username;
     private String password;
-    private Long departmentId;
     private RoleType roleName;
+    private String departmentName;
     private Collection<? extends GrantedAuthority> authorities;
 }

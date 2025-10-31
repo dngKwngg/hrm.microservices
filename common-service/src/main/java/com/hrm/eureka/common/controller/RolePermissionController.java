@@ -1,6 +1,6 @@
 package com.hrm.eureka.common.controller;
 
-import com.hrm.eureka.common.dto.PermissionDto;
+import com.hrm.eureka.common.dto.CommonResponse;
 import com.hrm.eureka.common.service.RolePermissionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +24,7 @@ public class RolePermissionController {
 
     @PreAuthorize("hasAuthority('GET_PERMISSIONS_BY_ROLE')")
     @GetMapping("/role/{roleId}/permissions")
-    public List<String> getPermissionsByRoleId(@PathVariable Long roleId) {
+    public CommonResponse getPermissionsByRoleId(@PathVariable Long roleId) {
         log.info("[Common Service] GET /api/v1/role-permission/role/{}/permissions", roleId);
         return rolePermissionService.getPermissionsByRoleId(roleId);
     }

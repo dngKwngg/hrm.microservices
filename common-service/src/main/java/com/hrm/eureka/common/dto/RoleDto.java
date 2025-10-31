@@ -11,7 +11,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RoleDto {
-    private Long roleId;
     private RoleType roleName;
     private List<String> permissions;
 }
