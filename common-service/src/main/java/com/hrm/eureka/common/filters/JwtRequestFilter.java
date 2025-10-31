@@ -1,5 +1,8 @@
 package com.hrm.eureka.common.filters;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hrm.eureka.common.constants.ResponseCode;
+import com.hrm.eureka.common.dto.CommonResponse;
 import com.hrm.eureka.common.utils.JwtUtils;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -22,35 +25,67 @@ import java.util.stream.Collectors;
 public class JwtRequestFilter extends OncePerRequestFilter {
     private static final Logger log = LoggerFactory.getLogger(JwtRequestFilter.class);
     private final JwtUtils jwtUtils;
+    private final ObjectMapper objectMapper;
 
-    public JwtRequestFilter(JwtUtils jwtUtils) {
+    public JwtRequestFilter(JwtUtils jwtUtils, ObjectMapper objectMapper) {
         this.jwtUtils = jwtUtils;
+        this.objectMapper = objectMapper;
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected boolean shouldNotFilter(HttpServletRequest request) {
+        String path = request.getServletPath();
+        return path.startsWith("/api/v1/auth/");
+    }
+
+    @Override
+    protected void doFilterInternal(HttpServletRequest request,
+                                    HttpServletResponse response,
+                                    FilterChain filterChain) throws ServletException, IOException {
+
         String authorizationHeader = request.getHeader("Authorization");
 
         if (authorizationHeader == null) {
-            log.info("[Common Service] Bearer Token is null");
-            filterChain.doFilter(request, response);
+            log.warn("[Security] Missing or invalid Authorization header");
+
+            writeErrorResponse(response, HttpServletResponse.SC_UNAUTHORIZED, "Missing or invalid Authorization header");
             return;
         }
+
         String jwt = authorizationHeader.substring("Bearer ".length());
 
         try {
             String username = jwtUtils.extractUsername(jwt);
             List<String> permissions = jwtUtils.extractPermissions(jwt);
 
-            List<GrantedAuthority> authorities = permissions.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
+            List<GrantedAuthority> authorities = permissions.stream()
+                    .map(SimpleGrantedAuthority::new)
+                    .collect(Collectors.toList());
 
-            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(username, null, authorities);
+            UsernamePasswordAuthenticationToken authentication =
+                    new UsernamePasswordAuthenticationToken(username, null, authorities);
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
+
         } catch (Exception e) {
-            log.error("JWT validation failed: {}", e.getMessage());
+            log.error("[Security] JWT validation failed: {}", e.getMessage());
+            writeErrorResponse(response, HttpServletResponse.SC_UNAUTHORIZED, "Invalid or expired token");
+            return;
         }
 
         filterChain.doFilter(request, response);
+    }
+
+    /**
+     * Write JSON error response using your CommonResponse structure
+     */
+    private void writeErrorResponse(HttpServletResponse response, int status, String message) throws IOException {
+        response.setStatus(status);
+        response.setContentType("application/json");
+
+        CommonResponse errorResponse = new CommonResponse(ResponseCode.UNAUTHORIZED, message);
+        String jsonResponse = objectMapper.writeValueAsString(errorResponse);
+
+        response.getWriter().write(jsonResponse);
     }
 }
