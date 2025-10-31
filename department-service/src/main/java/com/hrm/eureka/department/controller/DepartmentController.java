@@ -21,7 +21,7 @@ public class DepartmentController {
         this.departmentService = departmentService;
     }
 
-    @PreAuthorize("hasAuthority('READ_ALL_DEPARTMENTS')")
+//    @PreAuthorize("hasAuthority('READ_ALL_DEPARTMENTS')")
     @GetMapping
     public List<DepartmentDto> getAllDepartments(){
         log.info("[Department Service] GET /api/v1/departments");

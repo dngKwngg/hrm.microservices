@@ -49,10 +49,9 @@ public class JwtGatewayFilter extends AbstractGatewayFilterFactory<Object> {
                 return onError(exchange, "Invalid or Expired Token", HttpStatus.UNAUTHORIZED);
             }
 
-            Claims claims = jwtUtils.extractAllClaims(token);
-            String username = claims.getSubject();
+            String username = jwtUtils.extractUsername(token);
 
-            List<String> permissions = claims.get("permissions", List.class);
+            List<String> permissions = jwtUtils.extractPermissions(token);
 
             // Mutating the request to add custom headers
             // Get a mutable builder for the request

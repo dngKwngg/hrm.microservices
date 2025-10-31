@@ -1,7 +1,6 @@
-package com.hrm.eureka.gateway.utils;
+package com.hrm.eureka.department.utils;
 
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -18,23 +17,11 @@ public class JwtUtils {
     @Value("${security.jwt.secret}")
     private String SECRET_KEY;
 
-
     private SecretKey getSigningKey() {
         byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public boolean validateToken(String token) {
-        try {
-            Jwts.parser()
-                    .verifyWith(getSigningKey())
-                    .build()
-                    .parseSignedClaims(token);
-            return true;
-        } catch (JwtException e) {
-            return false;
-        }
-    }
 
     public Claims parseToken(String token) {
         return Jwts.parser()

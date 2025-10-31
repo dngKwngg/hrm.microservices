@@ -16,7 +16,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity
+//@EnableMethodSecurity
 public class SecurityConfig {
     private final JwtRequestFilter jwtRequestFilter;
     private final RequestLoggingFilter requestLoggingFilter;
@@ -35,8 +35,7 @@ public class SecurityConfig {
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(requestLoggingFilter, JwtRequestFilter.class)
-                .httpBasic(AbstractHttpConfigurer::disable);
+                .addFilterBefore(requestLoggingFilter, JwtRequestFilter.class);
 
         return http.build();
     }
@@ -49,4 +48,3 @@ public class SecurityConfig {
         };
     }
 }
-
