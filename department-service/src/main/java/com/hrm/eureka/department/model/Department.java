@@ -28,11 +28,14 @@ public class Department {
 
     private LocalDateTime updatedAt;
 
+    // Method run before the entity is inserted into the database
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
     }
 
+    // Method run before the entity is updated in the database
     @PreUpdate
     protected void onUpdate() {
         updatedAt = LocalDateTime.now();
